@@ -14,7 +14,7 @@ const {
 
 const logger = require("../util/logger");
 
-module.exports = class ClientController {
+module.exports = class AuthController {
 	constructor() {
 		this.router = Router();
 		this.path = "/auth";
@@ -27,9 +27,9 @@ module.exports = class ClientController {
 
 	async store(req, res) {
 		try {
-			const { email, password } = req.body;
+			const { email } = req.body;
 
-			if (!email || !password) {
+			if (!email) {
 				logger.error("Auth#store failed due to missing parameters");
 				return res
 					.status(BAD_REQUEST)
@@ -49,15 +49,6 @@ module.exports = class ClientController {
 				return res
 					.status(NOT_FOUND)
 					.json({ error: "Esse email não está cadastrado" });
-			}
-			const shaPass = cryptoJs.SHA512(password);
-			if (user.password !== cryptoJs.enc.Base64.stringify(shaPass)) {
-				logger.error("Auth#store failed due to incorrect password");
-				return res
-					.status(UNAUTHORIZED)
-					.json({
-						error: "Senha incorreta, por favor, tente novamente",
-					});
 			}
 
 			const token = sign(
