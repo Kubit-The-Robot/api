@@ -1,7 +1,8 @@
 const { Router } = require("express");
 const cryptoJS = require("crypto-js");
 
-const Client = require("../database/models/Client");
+const Client = require("../database/models/User");
+const Kubit = require("../database/models/Kubit");
 
 const {
 	SUCCESS,
@@ -29,9 +30,9 @@ module.exports = class ClientController {
 
 	async store(req, res) {
 		try {
-			const { email, name, age } = req.body;
+			const { email, name, age, avatarPhoto } = req.body;
 
-			if (!email || !name || !age) {
+			if (!email || !name || !age || !avatarPhoto) {
 				logger.error("Client#store failed due to missing parameters");
 				return res
 					.status(BAD_REQUEST)
@@ -57,11 +58,31 @@ module.exports = class ClientController {
 				name,
 				email,
 				age,
+				avatar_photo: avatarPhoto,
+				stars: 0
 			});
 
 			if (!client) {
 				logger.error(
-					"Client#store failed due to internal server error"
+					"Client#store failed due to client creation internal server error"
+				);
+				return res.status(INTERNAL_SERVER_ERROR).json({
+					error:
+						"Não foi possível realizar a criação de usuário, por favor, entre em contato com o nosso suporte",
+				});
+			}
+
+			const kubit = await Kubit.create({
+				hungry: 10,
+				energy: 10,
+				happiness: 10,
+				experience: 0,
+				user_id: client.id,
+			});
+
+			if (!kubit) {
+				logger.error(
+					"Client#store failed due to kubit creation internal server error"
 				);
 				return res.status(INTERNAL_SERVER_ERROR).json({
 					error:
@@ -81,10 +102,10 @@ module.exports = class ClientController {
 		try {
 			const {
 				id,
-				body: { email, name, age },
+				body: { email, name, age, avatarPhoto },
 			} = req;
 
-			if (!email || !name || !age) {
+			if (!email || !name || !age || !avatarPhoto) {
 				logger.error("Client#update failed due to missing parameters");
 				return res
 					.status(BAD_REQUEST)
@@ -96,6 +117,7 @@ module.exports = class ClientController {
 					name,
 					email,
 					age,
+					avatar_photo: avatarPhoto
 				},
 				{
 					where: {

@@ -2,7 +2,7 @@ const { Router } = require("express");
 const { sign } = require("jsonwebtoken");
 const cryptoJs = require("crypto-js");
 
-const Client = require("../database/models/Client");
+const Client = require("../database/models/User");
 
 const {
 	SUCCESS,

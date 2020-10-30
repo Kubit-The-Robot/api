@@ -1,6 +1,6 @@
 const { Model, DataTypes } = require("sequelize");
 
-class Client extends Model {
+class User extends Model {
 	static init(connection) {
 		super.init(
 			{
@@ -17,6 +17,14 @@ class Client extends Model {
 					type: DataTypes.INTEGER,
 					allowNull: false,
 				},
+				avatar_photo: {
+					type: DataTypes.STRING,
+					allowNull: false,
+				},
+				stars: {
+					type: DataTypes.INTEGER,
+					allowNull: false,
+				},
 			},
 			{
 				sequelize: connection,
@@ -25,11 +33,12 @@ class Client extends Model {
 	}
 
 	static associate(models) {
-		// Client.hasMany(models.FavoriteProducts, {
-		//   foreignKey: "client_id",
-		//   as: "favoriteProducts",
-		// });
+		User.belongsToMany(models.Item, {
+			foreignKey: "user_id",
+			through: "users_items",
+			as: "items"
+		})
 	}
 }
 
-module.exports = Client;
+module.exports = User;
