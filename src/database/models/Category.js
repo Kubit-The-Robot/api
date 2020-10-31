@@ -16,7 +16,7 @@ class Category extends Model {
     }
 
     static associate(models) {
-        Category.belongsToMany(models.Activity, {
+        Category.belongsToMany(models.activities, {
             foreignKey: "category_id",
             through: "activities_categories",
             as: "activities"

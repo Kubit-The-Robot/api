@@ -38,7 +38,7 @@ class User extends Model {
 			through: "users_items",
 			as: "items"
 		})
-		User.belongsToMany(models.Activity, {
+		User.belongsToMany(models.activities, {
 			foreignKey: "user_id",
 			through: "users_activities",
 			as: "activities"

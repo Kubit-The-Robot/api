@@ -1,5 +1,4 @@
 const { Router } = require("express");
-const cryptoJS = require("crypto-js");
 
 const User = require("../database/models/User");
 const Emotion = require("../database/models/Emotion");
@@ -23,7 +22,8 @@ module.exports = class EmotionController {
     }
 
     init() {
-        this.router.get(this.path, privateRoute, this.updateStatus);
+        this.router.get(this.path, privateRoute, this.getAll);
+        this.router.post(this.path, privateRoute, this.createUserEmotion);
     }
 
     async getAll(_, res) {

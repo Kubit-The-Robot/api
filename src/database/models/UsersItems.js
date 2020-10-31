@@ -16,10 +16,12 @@ class UsersItems extends Model {
                 quantity: {
                     type: DataTypes.INTEGER,
                     allowNull: false,
+                    defaultValue: 1
                 },
                 equipped: {
                     type: DataTypes.TINYINT,
                     allowNull: false,
+                    defaultValue: 0
                 }
             },
             {
