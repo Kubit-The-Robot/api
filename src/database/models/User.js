@@ -38,10 +38,19 @@ class User extends Model {
 			through: "users_items",
 			as: "items"
 		})
+		User.belongsToMany(models.Activity, {
+			foreignKey: "user_id",
+			through: "users_activities",
+			as: "activities"
+		})
 		User.belongsToMany(models.Emotion, {
 			foreignKey: "user_id",
 			through: "users_emotions",
 			as: "emotions"
+		})
+		User.hasMany(models.Session, {
+			foreignKey: "user_id",
+			as: "sessions"
 		})
 	}
 }
