@@ -28,11 +28,6 @@ class UsersActivities extends Model {
             },
             {
                 sequelize: connection,
-                modelName: "users_activities",
-                freezeTableName: true,
-                name: {
-                    singular: true
-                }
             }
         );
     }
