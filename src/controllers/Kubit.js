@@ -2,7 +2,7 @@ const { Router } = require("express");
 const cryptoJS = require("crypto-js");
 
 const Kubit = require("../database/models/Kubit");
-const Client = require("../database/models/Kubit");
+const Client = require("../database/models/User");
 
 const {
     SUCCESS,
@@ -15,7 +15,7 @@ const {
 const logger = require("../util/logger");
 const privateRoute = require("../middlewares/Auth");
 
-module.exports = class ClientController {
+module.exports = class KubitController {
     constructor() {
         this.router = Router();
         this.path = "/kubit";
@@ -42,13 +42,16 @@ module.exports = class ClientController {
                 });
             }
 
-            let oldKubit = await Kubit.findOne({
+            let kubit = await Kubit.findOne({
                 where: {
                     user_id: id,
                 },
             });
 
-            let kubit = await Kubit.increment(
+            const oldExpStatus = kubit["experience"]
+            kubit[status] = kubit[status] + quantity
+
+            await Kubit.increment(
                 {
                     [status]: quantity,
                 },
@@ -62,10 +65,10 @@ module.exports = class ClientController {
             let client;
 
             if (
-                Number((oldKubit.experience % 100).toFixed(0)) <
-                Number((kubit.experience % 100).toFixed(0))
+                Number((oldExpStatus / 100).toFixed(0)) <
+                Number((kubit.experience / 100).toFixed(0))
             ) {
-                client = await Client.increment(
+                await Client.increment(
                     {
                         stars: 1,
                     },
@@ -75,8 +78,10 @@ module.exports = class ClientController {
                         },
                     }
                 );
+
+                client = await Client.findByPk(id)
             }
-            jsonKubit = { ...kubit.toJSON() };
+            const jsonKubit = { ...kubit.toJSON() };
             if (client) {
                 jsonKubit.stars = client.stars;
             }

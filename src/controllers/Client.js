@@ -59,7 +59,7 @@ module.exports = class ClientController {
 				email,
 				age,
 				avatar_photo: avatarPhoto,
-				stars: 0
+				stars: 0,
 			});
 
 			if (!client) {
@@ -112,7 +112,7 @@ module.exports = class ClientController {
 					.json({ error: "Estão faltando parametros na requisição" });
 			}
 
-			const [, [client]] = await Client.update(
+			const [client] = await Client.update(
 				{
 					name,
 					email,

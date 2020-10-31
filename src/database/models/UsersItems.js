@@ -1,6 +1,6 @@
 const { Model, DataTypes } = require("sequelize");
 
-class Kubit extends Model {
+class UsersItems extends Model {
     static init(connection) {
         super.init(
             {
@@ -8,27 +8,23 @@ class Kubit extends Model {
                     type: DataTypes.INTEGER,
                     allowNull: false,
                 },
-                hungry: {
+                item_id: {
                     type: DataTypes.INTEGER,
                     allowNull: false,
                     unique: true,
                 },
-                energy: {
+                quantity: {
                     type: DataTypes.INTEGER,
                     allowNull: false,
                 },
-                happiness: {
-                    type: DataTypes.INTEGER,
+                equipped: {
+                    type: DataTypes.TINYINT,
                     allowNull: false,
-                },
-                experience: {
-                    type: DataTypes.INTEGER,
-                    allowNull: false,
-                },
+                }
             },
             {
                 sequelize: connection,
-                modelName: "kubit",
+                modelName: "users_items",
                 freezeTableName: true,
                 name: {
                     singular: true
@@ -36,13 +32,6 @@ class Kubit extends Model {
             }
         );
     }
-
-    static associate(models) {
-        Kubit.belongsTo(models.User, {
-            foreignKey: "user_id",
-            as: "users",
-        });
-    }
 }
 
-module.exports = Kubit;
+module.exports = UsersItems;

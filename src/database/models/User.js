@@ -38,6 +38,11 @@ class User extends Model {
 			through: "users_items",
 			as: "items"
 		})
+		User.belongsToMany(models.Emotion, {
+			foreignKey: "user_id",
+			through: "users_emotions",
+			as: "emotions"
+		})
 	}
 }
 

@@ -2,6 +2,7 @@ const { Router } = require("express");
 
 const Item = require("../database/models/Item");
 const Client = require("../database/models/User");
+const UsersItems = require("../database/models/UsersItems");
 
 const {
     INTERNAL_SERVER_ERROR,
@@ -21,7 +22,7 @@ module.exports = class StoreController {
 
     init() {
         this.router.get(this.path, privateRoute, this.getAllItems)
-        // this.router.post(`${this.path}/:slug`, privateRoute, this.buyItem)
+        this.router.post(`${this.path}/:slug`, privateRoute, this.buyItem)
     }
 
     async getAllItems(_, res) {
@@ -87,7 +88,16 @@ module.exports = class StoreController {
                 });
             }
 
-            await client.addItem(item)
+            await UsersItems.create({
+                user_id: id,
+                item_id: item.id,
+                equipped: false,
+                quantity: 1
+            })
+
+            client.stars = client.stars - item.price
+
+            await client.save()
 
             res.status(200).json({
                 success: true
