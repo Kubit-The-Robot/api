@@ -5,6 +5,7 @@
 [![Build Status](http://img.shields.io/travis/badges/badgerbadgerbadger.svg?style=flat-square)](https://travis-ci.org/badges/badgerbadgerbadger)
 
 ## Table of Contents
+
 -   [Installation](#installation)
 -   [Features](#features)
 -   [License](#license)
@@ -55,7 +56,7 @@ $ sudo docker-compose down
 
 -   Very scalable NodeJS architecture with Controllers and models being added automaticaly;
 -   Routes protected from basic security attacks as DDoS;
--   Use of Node cluster system.
+-   Use of Node cluster system;
 
 ## License
 
