@@ -40,7 +40,7 @@ module.exports = class ClientController {
 
             const jUserItems = userItems.map(item => item.toJSON())
 
-            res.status(200).json({ items: jUserItems })
+            res.status(SUCCESS).json({ items: jUserItems })
         } catch (ex) {
             logger.error(e.message || e);
             logger.error(__filename);
@@ -93,7 +93,7 @@ module.exports = class ClientController {
                 });
             }
 
-            res.status(200).json({ success: true })
+            res.status(SUCCESS).json({ success: true })
         } catch (ex) {
             logger.error(e.message || e);
             logger.error(__filename);
@@ -127,7 +127,7 @@ module.exports = class ClientController {
                 }
             })
 
-            res.status(200).json({ success: true })
+            res.status(SUCCESS).json({ success: true })
         } catch (ex) {
             logger.error(e.message || e);
             logger.error(__filename);
@@ -150,7 +150,7 @@ module.exports = class ClientController {
                 }
             })
 
-            res.status(200).json({ success: true })
+            res.status(SUCCESS).json({ success: true })
         } catch (ex) {
             logger.error(e.message || e);
             logger.error(__filename);

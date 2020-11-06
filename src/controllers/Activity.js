@@ -37,7 +37,7 @@ module.exports = class EmotionController {
 
             const jActivities = activities.map(activity => activity.toJSON())
 
-            res.status(200).json({ activities: jActivities })
+            res.status(SUCCESS).json({ activities: jActivities })
         } catch (e) {
             logger.error(e.message || e);
             logger.error(__filename);
@@ -96,7 +96,7 @@ module.exports = class EmotionController {
                 }
             }
 
-            res.status(200).json({ success: true })
+            res.status(SUCCESS).json({ success: true })
         } catch (e) {
             logger.error(e.message || e);
             logger.error(__filename);

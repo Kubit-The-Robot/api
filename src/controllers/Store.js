@@ -41,7 +41,7 @@ module.exports = class StoreController {
                 return item.toJSON()
             })
 
-            res.status(200).json(jItems)
+            res.status(SUCCESS).json(jItems)
         } catch (e) {
             logger.error(e.message || e);
             logger.error(__filename);
@@ -99,7 +99,7 @@ module.exports = class StoreController {
 
             await client.save()
 
-            res.status(200).json({
+            res.status(SUCCESS).json({
                 success: true
             })
         } catch (e) {

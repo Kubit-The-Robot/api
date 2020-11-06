@@ -32,7 +32,7 @@ module.exports = class EmotionController {
 
             const jEmotions = emotions.map(emotion => emotion.toJSON())
 
-            res.status(200).json({ emotions: jEmotions })
+            res.status(SUCCESS).json({ emotions: jEmotions })
         } catch (e) {
             logger.error(e.message || e);
             logger.error(__filename);
@@ -51,7 +51,7 @@ module.exports = class EmotionController {
 
             await user.addEmotion(emotion)
 
-            res.status(200).json({ success: true })
+            res.status(SUCCESS).json({ success: true })
         } catch (e) {
             logger.error(e.message || e);
             logger.error(__filename);

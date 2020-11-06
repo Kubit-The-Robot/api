@@ -86,7 +86,7 @@ module.exports = class KubitController {
                 jsonKubit.stars = client.stars;
             }
 
-            res.status(200).json(jsonKubit);
+            res.status(SUCCESS).json(jsonKubit);
         } catch (e) {
             logger.error(e.message || e);
             logger.error(__filename);
