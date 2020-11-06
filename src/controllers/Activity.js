@@ -3,6 +3,7 @@ const UsersActivities = require("../database/models/UsersActivities");
 
 const UsersItems = require("../database/models/UsersItems");
 const Activity = require("../database/models/Activity");
+const Category = require("../database/models/Category");
 const Item = require("../database/models/Item");
 
 const {
@@ -30,7 +31,9 @@ module.exports = class EmotionController {
 
     async getAll(_, res) {
         try {
-            const activities = await Activity.findAll()
+            const activities = await Activity.findAll({
+                include: [{ model: Category, as: "categories" }]
+            })
 
             const jActivities = activities.map(activity => activity.toJSON())
 
