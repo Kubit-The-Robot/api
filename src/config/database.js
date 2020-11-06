@@ -8,6 +8,6 @@ module.exports = {
 	database: "kubit",
 	define: {
 		timestamps: true,
-		underscored: true
-	}
+		underscored: true,
+	},
 };
