@@ -1,8 +1,6 @@
 # Kubit API
 
-> Kubit Application MVC, Docker and ES6 syntax
-
-[![Build Status](http://img.shields.io/travis/badges/badgerbadgerbadger.svg?style=flat-square)](https://travis-ci.org/badges/badgerbadgerbadger)
+> Kubit Application MVC and ES6 syntax
 
 ## Table of Contents
 
@@ -15,51 +13,40 @@
 ### Download
 
 -   Clone the repo using the following link:
-    `https://github.com/EnzoBtv/kubit-api`
+    `https://github.com/Kubit-The-Robot/api`
 
--   Download the LTS version of docker and docker-compose
+-   Download the 13.5.0 version of NodeJS
+
+-   Download MySQL database
 
 ### Setup and Execution
 
-To run the application, in the root folder of the project, run:
+-   Start MySQL Database on the port of your preference
 
-```sh
-$ sudo docker-compose up
+-   Run the generate.sql on your database
+
+-   To run the application, in the root folder of the project create a .env file. Like this:
+
+```env
+PORT=3000
+DB_HOST=localhost
+DB_USERNAME=root
+DB_PASSWORD=root
+SECRET=secret
 ```
 
-> It can take a little while because backend wait postgres to be available to receive connections
+#### Run Local
 
--   After docker finishes its internal processes, you will have 2 services:
+-   With NodeJS and NPM already installed, run:
 
--   A backend service, on the port 3333.
--   A PostgresSQL database on the default port 5432.
-
-> You can shut down the services using:
-
-```shell
-$ sudo docker-compose down
+```env
+$ npm install -g nodemon
+$ npm run start
 ```
-
-## Features
-
-> Users can authenticate in the app using the route /auth POST
 
 ## Technology
 
-> Docker
-
--   One container containing backend service using a PostgresSQL database;
--   Another one containing a PostgreSQL database;
--   Use of Docker-compose.
-
-> Backend
-
 -   Very scalable NodeJS architecture with Controllers and models being added automaticaly;
 -   Routes protected from basic security attacks as DDoS;
--   Use of Node cluster system;
-
-## License
-
-[![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
-
--   **[MIT license](http://opensource.org/licenses/mit-license.php)**
+-   Fast and Reliable API
+-   All logging gets saved to a file
