@@ -9,7 +9,6 @@ const {
 	INTERNAL_SERVER_ERROR,
 	BAD_REQUEST,
 	NOT_FOUND,
-	UNAUTHORIZED,
 } = require("../constants/HttpStatus");
 
 const logger = require("../util/logger");

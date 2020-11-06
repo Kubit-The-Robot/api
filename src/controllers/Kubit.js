@@ -7,9 +7,6 @@ const Client = require("../database/models/User");
 const {
     SUCCESS,
     INTERNAL_SERVER_ERROR,
-    BAD_REQUEST,
-    CONFLICT,
-    NOT_FOUND,
 } = require("../constants/HttpStatus");
 
 const logger = require("../util/logger");
