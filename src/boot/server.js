@@ -1,6 +1,7 @@
 const { join } = require("path");
 
 const express = require("express");
+const listEndpoints = require('express-list-endpoints');
 const { json, urlencoded } = require("body-parser");
 const Ddos = require("ddos");
 const cors = require("cors");
@@ -43,6 +44,10 @@ class Server {
 					this.app.use(new reqController().router);
 				}
 			}
+
+			this.app.get("/", (req, res) => {
+				return listEndpoints(this.app)
+			})
 		} catch (ex) {
 			logger.error(
 				`It wasn't possible to initialize the controllers, error: ${JSON.stringify(

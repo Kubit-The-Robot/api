@@ -73,9 +73,9 @@ module.exports = class ClientController {
 			}
 
 			const kubit = await Kubit.create({
-				hungry: 10,
-				energy: 10,
-				happiness: 10,
+				hungry: 0,
+				energy: 0,
+				happiness: 0,
 				experience: 0,
 				user_id: client.id,
 			});
