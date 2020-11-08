@@ -46,7 +46,7 @@ class Server {
 			}
 
 			this.app.get("/", (req, res) => {
-				return listEndpoints(this.app)
+				res.status(200).json(listEndpoints(this.app))
 			})
 		} catch (ex) {
 			logger.error(
