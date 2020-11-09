@@ -82,7 +82,7 @@ module.exports = class ClientController {
 				user_id: client.id,
 			});
 
-			const items = await Item.findAll({});
+			let items = await Item.findAll({});
 
 			if (!kubit) {
 				logger.error(
@@ -94,14 +94,16 @@ module.exports = class ClientController {
 				});
 			}
 
-			for (const item of items) {
-				await UsersItems.create({
+			items = items.map(item => {
+				return {
 					user_id: client.id,
 					item_id: item.id,
 					equipped: false,
 					quantity: 1
-				})
-			}
+				}
+			})
+
+			await UsersItems.bulkCreate(items)
 
 			return res.status(SUCCESS).json({ success: true });
 		} catch (e) {
