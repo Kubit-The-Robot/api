@@ -1,5 +1,5 @@
 const { Router } = require("express");
-
+const { each } = require("bluebird");
 const Item = require("../database/models/Item");
 const UsersItems = require("../database/models/UsersItems");
 const Kubit = require("../database/models/Kubit");
@@ -125,6 +125,33 @@ module.exports = class ClientController {
                 });
             }
 
+            if (item.type === "pet" || item.type === "stage") {
+                const equippedUserItems = await UsersItems.findAll({
+                    where: {
+                        user_id: id,
+                        equipped: 1
+                    }
+                })
+
+
+                if (equippedUserItems || (equippedUserItems instanceof Array && equippedUserItems.length > 0)) {
+                    await each(equippedUserItems, async equippedItem => {
+                        let oldEquippedItem = await Item.findByPk(equippedItem.item_id)
+
+                        if (item.type === oldEquippedItem.type) {
+                            await UsersItems.update({
+                                equipped: 0
+                            }, {
+                                where: {
+                                    user_id: id,
+                                    item_id: equippedItem.item_id
+                                }
+                            })
+                        }
+                    })
+
+                }
+            }
             await UsersItems.update({
                 equipped: 1
             }, {
@@ -136,11 +163,12 @@ module.exports = class ClientController {
 
             res.status(SUCCESS).json({ success: true })
         } catch (ex) {
-            logger.error(e.message || e);
+            logger.error(ex.message || ex);
             logger.error(__filename);
-            return res.status(INTERNAL_SERVER_ERROR).json({ error: e.message });
+            return res.status(INTERNAL_SERVER_ERROR).json({ error: ex.message });
         }
     }
+
 
     async unequipItem(req, res) {
         try {
