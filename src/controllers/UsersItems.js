@@ -58,6 +58,15 @@ module.exports = class ClientController {
                     user_id: id,
                 }
             })
+
+            if (!userItem) {
+                logger.error(
+                    "Kubit#useItem User doesn't have the Item"
+                );
+                return res.status(BAD_REQUEST).json({
+                    error: "Não foi possível utilizar o item",
+                });
+            }
             const item = await Item.findByPk(item_id)
 
             if (
