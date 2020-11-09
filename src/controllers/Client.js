@@ -3,6 +3,8 @@ const cryptoJS = require("crypto-js");
 
 const Client = require("../database/models/User");
 const Kubit = require("../database/models/Kubit");
+const Item = require("../database/models/Item");
+const UsersItems = require("../database/models/UsersItems");
 
 const {
 	SUCCESS,
@@ -80,6 +82,8 @@ module.exports = class ClientController {
 				user_id: client.id,
 			});
 
+			const items = await Item.findAll({});
+
 			if (!kubit) {
 				logger.error(
 					"Client#store failed due to kubit creation internal server error"
@@ -88,6 +92,15 @@ module.exports = class ClientController {
 					error:
 						"Não foi possível realizar a criação de usuário, por favor, entre em contato com o nosso suporte",
 				});
+			}
+
+			for (const item of items) {
+				await UsersItems.create({
+					user_id: client.id,
+					item_id: item.id,
+					equipped: false,
+					quantity: 1
+				})
 			}
 
 			return res.status(SUCCESS).json({ success: true });

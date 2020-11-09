@@ -13,6 +13,7 @@ const {
 
 const logger = require("../util/logger");
 const privateRoute = require("../middlewares/Auth");
+const { Sequelize } = require("sequelize");
 
 module.exports = class EmotionController {
     constructor() {
@@ -70,7 +71,12 @@ module.exports = class EmotionController {
                     });
                 }
 
-                const item = await Item.findByPk(activity.prize)
+                const item = await Item.findOne({
+                    where: {
+                        slug: "battery"
+                    }
+                })
+
                 if (!item) {
                     logger.error(
                         "Activity#createUserActivity failed due to item prize not found"
@@ -90,6 +96,35 @@ module.exports = class EmotionController {
                 if (!created) {
                     userItem.quantity += difficulty;
                     await userItem.save()
+                }
+
+                const hungryItem = (await Item.findAll({
+                    where: {
+                        type: "hungry"
+                    },
+                    order: Sequelize.literal('rand()'),
+                    limit: 1
+                }))[0]
+
+                if (!hungryItem) {
+                    logger.error(
+                        "Activity#createUserActivity failed due to item prize not found"
+                    );
+                    return res.status(INTERNAL_SERVER_ERROR).json({
+                        error: "Não foi possível atualizar os status do Kubit",
+                    });
+                }
+
+                const [userItem2, created2] = await UsersItems.findOrCreate({
+                    where: {
+                        user_id: id,
+                        item_id: hungryItem.id,
+                    }
+                })
+
+                if (!created2) {
+                    userItem2.quantity += difficulty;
+                    await userItem2.save()
                 }
             }
 

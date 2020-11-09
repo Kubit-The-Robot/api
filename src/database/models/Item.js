@@ -42,10 +42,6 @@ class Item extends Model {
             through: "users_items",
             as: "users"
         })
-        Item.hasMany(models.activities, {
-            foreignKey: "prize",
-            as: "activities"
-        })
     }
 }
 
